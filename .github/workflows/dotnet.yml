@@ -1,0 +1,74 @@
+name: Dotnet workflow
+
+on:
+  push:
+    branches:
+      - trunk
+  pull_request:
+    branches:
+      - trunk
+
+env:
+  NODE_VERSION: '13.x'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source tree
+        uses: actions/checkout@v2
+      #- name: Setup bazelisk
+      #  uses: ./.github/actions/setup-bazelisk
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'         
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+      #- uses: ./.github/actions/setup-bazelisk
+      - name: Update commit version
+        run: |
+          $path = "${{ github.workspace }}"
+          $filePathToTask = Join-Path -Path $path -ChildPath  "dotnet/src/webdriver/WebDriver.nuspec"
+          Write-Host $filePathToTask
+          $xml = New-Object XML
+          $xml.Load($filePathToTask)
+          $ns = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
+          $ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
+          $element =  $xml.DocumentElement.SelectSingleNode("//ns:repository", $ns)
+          $element.commit = (git rev-parse HEAD).ToString()
+          $xml.Save($filePathToTask)
+          Write-Host (git rev-parse HEAD).ToString()
+      
+      - name: Build webdriver
+        uses: ./.github/actions/bazel
+        with:
+          #command: build -s //dotnet/src/webdriver:package
+          command: build -s //dotnet/src/webdriver:netstandard2.0
+          #command: build //dotnet/source/common:chrome
+          
+      - run: Get-ChildItem -Path bazel-bin/dotnet/src/webdriver/
+        shell: pwsh 
+        
+      - uses: actions/upload-artifact@v2
+        if: always()
+        name: "Upload code"
+        with:
+          name: code
+          path: |
+            dotnet/src/webdriver/*.*
+        
+      - uses: actions/upload-artifact@v2
+        name: "Upload artifacts"
+        with:
+          name: nuget
+          path: |
+            bazel-bin/dotnet/src/webdriver/*.*
+            
+      - uses: actions/upload-artifact@v2
+        name: "Upload bin"
+        with:
+          name: bin
+          path: |
+            bazel-bin/dotnet/**/*.*
