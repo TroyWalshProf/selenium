@@ -261,13 +261,13 @@ http_archive(
     url = "https://github.com/p0deje/rules_ruby/archive/03150fc10f17487dd78b267d77349a29243fbf55.tar.gz",
 )
 
-load(
-    "@coinbase_rules_ruby//ruby:deps.bzl",
-    "rules_ruby_dependencies",
-    "ruby_register_toolchains",
-)
+# load(
+#    "@coinbase_rules_ruby//ruby:deps.bzl",
+#    "rules_ruby_dependencies",
+#    "ruby_register_toolchains",
+#)
 
-rules_ruby_dependencies()
+# rules_ruby_dependencies()
 # ruby_register_toolchains()
 
 # load("@coinbase_rules_ruby//ruby:defs.bzl", "rb_bundle")
