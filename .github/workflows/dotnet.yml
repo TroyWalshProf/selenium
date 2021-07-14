@@ -17,16 +17,16 @@ jobs:
     steps:
       - name: Checkout source tree
         uses: actions/checkout@v2
-      #- name: Setup bazelisk
-      #  uses: ./.github/actions/setup-bazelisk
+      - name: Setup bazelisk
+        uses: ./.github/actions/setup-bazelisk
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
           java-version: '11'         
-      #- uses: ruby/setup-ruby@v1
-      #  with:
-      #    ruby-version: 2.5
-      #- uses: ./.github/actions/setup-bazelisk
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+      - uses: ./.github/actions/setup-bazelisk
       
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
