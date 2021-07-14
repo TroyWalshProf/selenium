@@ -64,7 +64,6 @@ generated_assembly_info(
     visibility = ["//visibility:public"],
     deps = [
         "@json.net//:Newtonsoft.Json",
-        "@serilog//:Serilog",
         "@net//:System",
         "@net//:System.Core",
         "@net//:System.Data",
@@ -110,7 +109,6 @@ generated_assembly_info(
     visibility = ["//visibility:public"],
     deps = [
         "@json.net//:Newtonsoft.Json",
-        "@serilog//:Serilog",
     ],
 ) for standard_version in SUPPORTED_NET_STANDARD_VERSIONS]
 
@@ -148,7 +146,6 @@ generated_assembly_info(
     visibility = ["//visibility:public"],
     deps = [
         "@json.net//:Newtonsoft.Json",
-        "@serilog//:Serilog",
         "@net//:System",
         "@net//:System.Core",
         "@net//:System.Data",
@@ -206,7 +203,6 @@ generated_assembly_info(
     visibility = ["//visibility:public"],
     deps = [
         "@json.net//:Newtonsoft.Json",
-        "@serilog//:Serilog",
     ],
 ) for framework in SUPPORTED_NET_FRAMEWORKS]
 
